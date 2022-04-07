@@ -27,8 +27,8 @@ as in info_df = pd.read_csv(info_url), then you can use the methods here to extr
 
     get_dsg_info(dsg_type, info_df)
         Returns the name of the Z variable as a string and the DSG ID of the data set as a dict
-        with keys timeseries_id, profile_id, trajectory_id as appropriate.
-        A timeseriesprofile data set has both a timeseries_id and a profile_id
+        with keys timeseries, profile, trajectory as appropriate.
+        A timeseriesprofile data set has both a timeseries and a profile key.
 
 
         Parameters:
