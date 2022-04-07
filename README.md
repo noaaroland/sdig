@@ -15,11 +15,11 @@ as in info_df = pd.read_csv(info_url), then you can use the methods here to extr
         variable.
 
             Parameters:
-                    * :param: depth_name: A string which the ERDDAP/netCDF short variable name of the variable
-                    * that contains the DSG ID
-                    * :type: str
-                    * :param: url: data url of the tabledap data set from which to read the data values
-                    * :type: str
+                    :param: depth_name: A string which the ERDDAP/netCDF short variable name of the variable
+                    that contains the DSG ID
+                    :type: str
+                    :param: url: data url of the tabledap data set from which to read the data values
+                    :type: str
 
             Returns:
                     :returns: depths: a sorted list of distinct depths.
