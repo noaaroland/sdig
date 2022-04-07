@@ -188,8 +188,8 @@ def get_title(info_df):
 def get_dsg_info(dsg_type, info_df):
     """
     Returns the name of the Z variable as a string and the DSG ID of the data set as a dict
-    with keys timeseries_id, profile_id, trajectory_id as appropriate.
-    A timeseriesprofile data set has both a timeseries_id and a profile_id
+    with keys timeseries, profile, trajectory as appropriate.
+    A timeseriesprofile data set has both a timeseries and a profile
 
 
     Parameters:
@@ -200,7 +200,7 @@ def get_dsg_info(dsg_type, info_df):
     Returns:
         :returns: depth_name: the value of the title global attribute
         :rtype: str
-        :returns: dsg_id: the variable names of the id variables as values with [dsg_type]_id as keys
+        :returns: dsg_id: the variable names of the id variables as values with [dsg_type] as keys
         :rtype: str
 
     """
