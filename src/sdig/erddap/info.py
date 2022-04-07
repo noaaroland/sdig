@@ -1,6 +1,29 @@
 import pandas as pd
 import datetime
 import dateutil.parser
+import re
+
+
+def get_info_url(data_url):
+    """
+    Returns the info CSV URL from the data URL of a DSG ERDDAP dataset. Changes:
+     https://data.pmel.noaa.gov/pmel/erddap/tabledap/CGBN_Canada.html or
+     https://data.pmel.noaa.gov/pmel/erddap/tabledap/CGBN_Canada
+     to
+     https://data.pmel.noaa.gov/pmel/erddap/info/CGBN_Canada/index.csv
+
+    :param data_url:
+    :type: str
+    :return: The info CSV url for use with the
+    :rtype: str
+    """
+    if data_url.endswith('/index.csv'):
+        return data_url
+    if data_url.endswith('.html'):
+        data_url = re.sub('\\.html$', '', data_url)
+    data_url = data_url.replace('tabledap', "info")
+    data_url = data_url + '/index.csv'
+    return data_url
 
 
 def make_platform_constraint(dsg_id_var, in_platforms):
@@ -52,7 +75,6 @@ def get_depths(depth_name, url):
                 :rtype: list
     """
     depth_url = url + '.csv?' + depth_name + '&distinct()&orderBy("' + depth_name + '")'
-    print(depth_url)
     depth_df = pd.read_csv(depth_url, skiprows=[1])
     depths = depth_df[depth_name].to_list()
     return depths
