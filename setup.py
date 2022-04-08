@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
     name='sdig',
@@ -6,6 +6,6 @@ setup(
     description='Simple module for reading ERDDAP metadata',
     author='Roland Schweitzer',
     author_email='roland.schweitzer@noaa.gov',
-    packages=['sdig.erddap.info'],  # same as name
+    packages=find_packages(),  # same as name
     install_requires=['pandas'],  # external packages as dependencies
 )
