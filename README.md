@@ -1,6 +1,12 @@
 # sdig
 Helper Routines for reading ERDDAP DSG metadata.
 
+## Installation (for the time being)
+
+pip install git+https://github.com/noaaroland/sdig.git
+
+## Details
+
 All ERDDAP DSG data sets have a handy metadata construct located at server.gov/erddap/info/dataset_id/index.csv. If you read that metadata into a Pandas dataframe
 as in info_df = pd.read_csv(info_url), then you can use the methods here to extract lots of interesting things as detailed below.
 
