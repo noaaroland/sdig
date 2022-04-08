@@ -6,6 +6,6 @@ setup(
     description='Simple module for reading ERDDAP metadata',
     author='Roland Schweitzer',
     author_email='roland.schweitzer@noaa.gov',
-    packages=['sdig'],  # same as name
+    packages=['sdig.erddap.info'],  # same as name
     install_requires=['pandas'],  # external packages as dependencies
 )
