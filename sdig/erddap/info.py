@@ -7,10 +7,10 @@ import re
 def get_info_url(data_url):
     """
     Returns the info CSV URL from the data URL of a DSG ERDDAP dataset. Changes:
-     https://data.pmel.noaa.gov/pmel/erddap/tabledap/CGBN_Canada.html or
-     https://data.pmel.noaa.gov/pmel/erddap/tabledap/CGBN_Canada
-     to
-     https://data.pmel.noaa.gov/pmel/erddap/info/CGBN_Canada/index.csv
+    https://data.pmel.noaa.gov/pmel/erddap/tabledap/CGBN_Canada.html or
+    https://data.pmel.noaa.gov/pmel/erddap/tabledap/CGBN_Canada
+    to
+    https://data.pmel.noaa.gov/pmel/erddap/info/CGBN_Canada/index.csv
 
     :param data_url:
     :type: str
