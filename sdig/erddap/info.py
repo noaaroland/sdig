@@ -220,8 +220,19 @@ def get_dsg_info(dsg_type, info_df):
         profile_id = list(info_df.loc[(info_df['Row Type'] == 'attribute') & (info_df['Value'] == 'profile_id') & (
                     info_df['Attribute Name'] == 'cf_role')]['Variable Name'].unique())[0]
         dsg_id['profile'] = profile_id
-        depth_name = list(info_df.loc[(info_df['Row Type'] == 'attribute') & (info_df['Attribute Name'] == 'positive')][
-            'Variable Name'].unique())[0]
+
+        # Try to find the vertical proxy first.
+        depth_name = None
+        depth_series =  info_df.loc[
+            (info_df['Row Type'] == 'attribute') & (info_df['Attribute Name'] == 'cdm_altitude_proxy ') & (
+                    info_df['Variable Name'] == 'NC_GLOBAL')]['Value']
+        if len(depth_series) > 0:
+            depth_name = depth_series.to_list()[0]
+
+        if depth_name is None:
+            depth_name = list(info_df.loc[(info_df['Row Type'] == 'attribute') & (info_df['Attribute Name'] == 'positive')][
+                'Variable Name'].unique())[0]
+
     elif dsg_type == 'timeseriesprofile':
         profile_id = list(info_df.loc[(info_df['Row Type'] == 'attribute') & (info_df['Value'] == 'profile_id') & (
                     info_df['Attribute Name'] == 'cf_role')]['Variable Name'].unique())[0]
@@ -230,8 +241,15 @@ def get_dsg_info(dsg_type, info_df):
             (info_df['Row Type'] == 'attribute') & (info_df['Value'] == 'timeseries_id') & (
                         info_df['Attribute Name'] == 'cf_role')]['Variable Name'].unique())[0]
         dsg_id['timeseries'] = timeseries_id
-        depth_name = list(info_df.loc[(info_df['Row Type'] == 'attribute') & (info_df['Attribute Name'] == 'positive')][
-            'Variable Name'].unique())[0]
+        depth_name = None
+        att_series = info_df.loc[
+            (info_df['Row Type'] == 'attribute') & (info_df['Attribute Name'] == 'cdm_altitude_proxy') & (
+                    info_df['Variable Name'] == 'NC_GLOBAL')]['Value']
+        if len(att_series) > 0:
+            depth_name = att_series.to_list()[0]
+        if depth_name is None:
+            depth_name = list(info_df.loc[(info_df['Row Type'] == 'attribute') & (info_df['Attribute Name'] == 'positive')][
+                'Variable Name'].unique())[0]
     return depth_name, dsg_id
 
 

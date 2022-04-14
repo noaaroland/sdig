@@ -62,6 +62,15 @@ class TestEREDDAPInfoMethods(unittest.TestCase):
         # It's just a coincidence that these depths have increments of 1.0
         self.assertAlmostEqual(depths[61], 61.)
 
+    # Not a public data set...
+    # def test_depth_proxy(self):
+    #     a_url = 'https://dunkel.pmel.noaa.gov:8930/erddap/tabledap/keo_temp_on_pres.html'
+    #     i_url = info.get_info_url(a_url)
+    #     a_info_df = pd.read_csv(i_url)
+    #     dsg_type = info.get_dsg_type(a_info_df)
+    #     depth_name, dsg_id = info.get_dsg_info(dsg_type, a_info_df)
+    #     self.assertEqual(depth_name, 'PRES')
+
     def test_make_id_con(self):
         platform = '1022.0'
         platforms = ['1040.0', '1041.0', '1095.0']

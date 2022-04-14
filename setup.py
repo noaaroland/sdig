@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='sdig',
-    version='0.2',
+    version='0.3',
     description='Simple module for reading ERDDAP metadata',
     author='Roland Schweitzer',
     author_email='roland.schweitzer@noaa.gov',
