@@ -74,6 +74,8 @@ def get_depths(depth_name, url):
                 :returns: depths: a sorted list of distinct depths.
                 :rtype: list
     """
+    if url.endswith('.html'):
+        url = url.replace('.html', '')
     depth_url = url + '.csv?' + depth_name + '&distinct()&orderBy("' + depth_name + '")'
     depth_df = pd.read_csv(depth_url, skiprows=[1])
     depths = depth_df[depth_name].to_list()
