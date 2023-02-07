@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/sdig.iml" filepath="$PROJECT_DIR$/sdig.iml" />
+      <module fileurl="file://$PROJECT_DIR$/test.sdig/test.sdig.iml" filepath="$PROJECT_DIR$/test.sdig/test.sdig.iml" />
     </modules>
   </component>
 </project>
