@@ -7,5 +7,5 @@ setup(
     author='Roland Schweitzer',
     author_email='roland.schweitzer@noaa.gov',
     packages=find_packages(),  # same as name
-    install_requires=['pandas'],  # external packages as dependencies
+    install_requires=['pandas','numpy'],  # external packages as dependencies
 )
