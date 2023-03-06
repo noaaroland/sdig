@@ -2,8 +2,8 @@ from setuptools import setup, find_packages
 
 setup(
     name='sdig',
-    version='0.4',
-    description='Simple class for reading ERDDAP metadata',
+    version='0.5',
+    description='Simple class for reading ERDDAP metadata and utility class for get zoom and center for Mapbox map.',
     author='Roland Schweitzer',
     author_email='roland.schweitzer@noaa.gov',
     packages=find_packages(),  # same as name
