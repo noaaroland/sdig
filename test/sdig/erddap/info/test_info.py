@@ -81,6 +81,14 @@ class TestEREDDAPInfoMethods(unittest.TestCase):
         self.assertEqual(r1['platforms'][0], '1022.0')
         self.assertEqual(r2['con'], 'trajectory_id=~"1040.0|1041.0|1095.0"')
 
+    def test_altitude_proxy(self):
+        my_info = Info('https://data.pmel.noaa.gov/alamo/erddap/tabledap/arctic_heat_alamo_profiles_11012')
+        dsg_type = my_info.get_dsg_type()
+        depth_name, id_d = my_info.get_dsg_info()
+        self.assertEqual(dsg_type, 'profile')
+        self.assertEqual(id_d[dsg_type], 'profileid')
+        self.assertEqual(depth_name, 'PRES')
+
 
 if __name__ == '__main__':
     unittest.main()

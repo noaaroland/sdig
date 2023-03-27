@@ -35,7 +35,7 @@ class Info:
             :returns: depth_name: the value of the title global attribute
             :rtype: str
             :returns: dsg_id: the variable names of the id variables as values with [dsg_type] as keys
-            :rtype: str
+            :rtype: dict
     
         """
         dsg_id = {}
@@ -58,7 +58,7 @@ class Info:
             # Try to find the vertical proxy first.
             depth_name = None
             depth_series =  self.info_df.loc[
-                (self.info_df['Row Type'] == 'attribute') & (self.info_df['Attribute Name'] == 'cdm_altitude_proxy ') & (
+                (self.info_df['Row Type'] == 'attribute') & (self.info_df['Attribute Name'] == 'cdm_altitude_proxy') & (
                         self.info_df['Variable Name'] == 'NC_GLOBAL')]['Value']
             if len(depth_series) > 0:
                 depth_name = depth_series.to_list()[0]
