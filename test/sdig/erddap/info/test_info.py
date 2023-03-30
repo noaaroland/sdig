@@ -89,6 +89,16 @@ class TestEREDDAPInfoMethods(unittest.TestCase):
         self.assertEqual(id_d[dsg_type], 'profileid')
         self.assertEqual(depth_name, 'PRES')
 
+    def test_trajectoryprofile_id(self):
+        tj_info = Info('https://data.pmel.noaa.gov/alamo/erddap/tabledap/arctic_heat_alamo_collection')
+        tj_dsg_type = tj_info.get_dsg_type()
+        tj_dn, tj_id = tj_info.get_dsg_info()
+        self.assertEqual(tj_dsg_type, 'trajectoryprofile')
+        self.assertEqual(tj_dn, 'PRES')
+        self.assertEqual(tj_id['profile'], 'profileid')
+        self.assertEqual(tj_id['trajectory'], 'FLOAT_SERIAL_NO')
+
+
 
 if __name__ == '__main__':
     unittest.main()

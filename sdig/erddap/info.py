@@ -84,6 +84,23 @@ class Info:
             if depth_name is None:
                 depth_name = list(self.info_df.loc[(self.info_df['Row Type'] == 'attribute') & (self.info_df['Attribute Name'] == 'positive')][
                                       'Variable Name'].unique())[0]
+        elif self.dsg_type == 'trajectoryprofile':
+            profile_id = list(self.info_df.loc[(self.info_df['Row Type'] == 'attribute') & (self.info_df['Value'] == 'profile_id') & (
+                    self.info_df['Attribute Name'] == 'cf_role')]['Variable Name'].unique())[0]
+            dsg_id['profile'] = profile_id
+            trajectory_id = list(self.info_df.loc[
+                                     (self.info_df['Row Type'] == 'attribute') & (self.info_df['Value'] == 'trajectory_id') & (
+                                             self.info_df['Attribute Name'] == 'cf_role')]['Variable Name'].unique())[0]
+            dsg_id['trajectory'] = trajectory_id
+            depth_name = None
+            att_series = self.info_df.loc[
+                (self.info_df['Row Type'] == 'attribute') & (self.info_df['Attribute Name'] == 'cdm_altitude_proxy') & (
+                        self.info_df['Variable Name'] == 'NC_GLOBAL')]['Value']
+            if len(att_series) > 0:
+                depth_name = att_series.to_list()[0]
+            if depth_name is None:
+                depth_name = list(self.info_df.loc[(self.info_df['Row Type'] == 'attribute') & (self.info_df['Attribute Name'] == 'positive')][
+                                      'Variable Name'].unique())[0]
         return depth_name, dsg_id    
 
     def get_depths(self):
