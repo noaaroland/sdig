@@ -2,6 +2,7 @@ import pandas as pd
 import datetime
 import dateutil.parser
 import re
+import urllib
 
 
 class Info:
@@ -177,7 +178,10 @@ class Info:
         std_nme_all = self.info_df.loc[(self.info_df['Row Type'] == 'attribute') & (self.info_df['Attribute Name'] == 'standard_name')]
         std_nme_df = std_nme_all.drop_duplicates(subset=['Variable Name'])
         standard_names = dict(zip(std_nme_df['Variable Name'], std_nme_df['Value'].astype(str)))
-        return variables, long_names, units, standard_names
+        type_all = self.info_df.loc[(self.info_df['Row Type'] == 'attribute') & (self.info_df['Attribute Name'] == 'type')]
+        type_df = std_nme_all.drop_duplicates(subset=['Variable Name'])
+        variable_types = dict(zip(std_nme_df['Variable Name'], std_nme_df['Value'].astype(str)))
+        return variables, long_names, units, standard_names, variable_types
 
     def get_title(self):
         """
@@ -217,11 +221,11 @@ class Info:
                 in_platforms = [str(p) for p in in_platforms]
                 p_list = in_platforms
                 if len(in_platforms) > 1:
-                    con = dsg_id_var + '=~"' + '|'.join(in_platforms) + '"'
+                    con = dsg_id_var + '=~"' + urllib.parse.quote('|'.join(in_platforms)) + '"'
                 elif len(in_platforms) == 1:
-                    con = dsg_id_var + '="' + in_platforms[0] + '"'
+                    con = dsg_id_var + '="' + urllib.parse.quote(in_platforms[0]) + '"'
             else:
-                con = dsg_id_var + '="' + str(in_platforms) + '"'
+                con = dsg_id_var + '="' + urllib.parse.quote(str(in_platforms)) + '"'
                 p_list = [str(in_platforms)]
         return {'con': con, 'platforms': p_list}
 
