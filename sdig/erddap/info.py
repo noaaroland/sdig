@@ -178,9 +178,9 @@ class Info:
         std_nme_all = self.info_df.loc[(self.info_df['Row Type'] == 'attribute') & (self.info_df['Attribute Name'] == 'standard_name')]
         std_nme_df = std_nme_all.drop_duplicates(subset=['Variable Name'])
         standard_names = dict(zip(std_nme_df['Variable Name'], std_nme_df['Value'].astype(str)))
-        type_all = self.info_df.loc[(self.info_df['Row Type'] == 'attribute') & (self.info_df['Attribute Name'] == 'type')]
-        type_df = std_nme_all.drop_duplicates(subset=['Variable Name'])
-        variable_types = dict(zip(std_nme_df['Variable Name'], std_nme_df['Value'].astype(str)))
+        v_types = list(self.info_df.loc[(self.info_df['Row Type'] == 'variable') & (self.info_df['Variable Name'] != 'NC_GLOBAL')][
+                           'Data Type'])
+        variable_types = dict(zip(variables, v_types))
         return variables, long_names, units, standard_names, variable_types
 
     def get_title(self):

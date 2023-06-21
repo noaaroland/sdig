@@ -1,6 +1,7 @@
 import unittest
 
 from sdig.erddap.info import Info
+import pandas as pd
 
 
 class TestEREDDAPInfoMethods(unittest.TestCase):
@@ -98,6 +99,30 @@ class TestEREDDAPInfoMethods(unittest.TestCase):
         self.assertEqual(tj_id['profile'], 'profileid')
         self.assertEqual(tj_id['trajectory'], 'FLOAT_SERIAL_NO')
 
+    def test_hi_res(self):
+        hr_info = Info('https://datalocal.pmel.noaa.gov/erddap/tabledap/sd1069_2019_1hz.html')
+        hr_type = hr_info.get_dsg_type()
+        self.assertEqual(hr_type, 'trajectory')
+
+    def test_url_encode(self):
+        base = 'https://data.pmel.noaa.gov/socat/erddap/tabledap/socat_v2020_decimated.csv?investigators,latitude,longitude,time,expocode,fCO2_recommended&time>=1957-10-21&time<=2020-01-05'
+        con_dict = Info.make_platform_constraint('investigators', 'Alin, S. : Sutton, A. : Feely, R.')
+        con_dict2 = Info.make_platform_constraint('investigators', ['Alin, S. : Sutton, A. : Feely, R.'])
+        self.assertEqual(con_dict['con'], con_dict2['con'])
+        e_url = base + '&' + con_dict['con']
+        df = pd.read_csv(e_url, skiprows=[1])
+        self.assertEqual(df['investigators'].iloc[0], 'Alin, S. : Sutton, A. : Feely, R.')
+        con_dict3 = Info.make_platform_constraint('investigators', ['Alin, S. : Sutton, A. : Feely, R.', 'Bakker, D.'])
+        e_url = base + '&' + con_dict3['con']
+        df = pd.read_csv(e_url, skiprows=[1])
+        print(e_url)
+        self.assertEqual(df['investigators'].iloc[-1], 'Bakker, D.')
+
+    def test_var_type(self):
+        base = 'https://data.pmel.noaa.gov/socat/erddap/tabledap/socat_v2020_decimated'
+        scinfo = Info(base)
+        variables, long_names, units, standard_names, variable_types = scinfo.get_variables()
+        self.assertEqual(variable_types['investigators'], 'String')
 
 
 if __name__ == '__main__':
