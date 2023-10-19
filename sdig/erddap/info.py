@@ -279,13 +279,15 @@ class Info:
         return data_url
 
     @classmethod
-    def plug_gaps(cls, df, time_name, keep, n_std):
+    def plug_gaps(cls, df, time_name, id_name, keep, n_std):
         """
         Inserts a NaN value in every column that is not in the keep list
 
         :param: df: a Dataframe in which to insert NaN's in time gaps.
         :type: Dataframe
         :param: time_name: the name of the column in the Dataframe that contains the time
+        :type: str
+        :param: id_name: the column name of the timeseries ID
         :type: str
         :param: list: the names of the columns which are to be copied into the NaN rows
         :type: list
@@ -294,28 +296,38 @@ class Info:
         :rtype: Dataframe
         """
         df[time_name] = pd.to_datetime(df[time_name])
-        gaps = df['time'].diff()[1:]
-        stats = gaps.describe()
-        factor = stats['std']*n_std
-        breaks = gaps[gaps>factor]
-        after = breaks.index
-        before = breaks.index - 1
-        insert = breaks.index - .5
-        for g in range(0, len(after)):
-            b = before[g]
-            b_row = df.loc[b]
-            i = insert[g]
-            a = after[g]
-            a_row = df.loc[a]
-            row = []
-            for col in df.columns:
-                if col == time_name:
-                    i_time = b_row[time_name] + (a_row[time_name] - b_row[time_name])/2.0
-                    row.append(i_time)
-                elif col in keep:
-                    row.append(a_row[col])
-                else:
-                    row.append(np.nan)
-            df.loc[i] = row
-        df.sort_index(inplace=True)
+        processed = []
+        id_values = df[id_name].unique()
+        for e_id in id_values:
+            id_df = df[df[id_name]==e_id].copy()
+            gaps = id_df['time'].diff()[1:]
+            stats = gaps.describe()
+            factor = stats['std']*n_std
+            if factor > stats['mean']:
+                breaks = gaps[gaps>factor]
+                after = breaks.index
+                before = breaks.index - 1
+                insert = breaks.index - .5
+                for g in range(0, len(after)):
+                    b = before[g]
+                    b_row = df.loc[b]
+                    i = insert[g]
+                    a = after[g]
+                    a_row = id_df.loc[a]
+                    row = []
+                    for col in df.columns:
+                        if col == time_name:
+                            i_time = b_row[time_name] + (a_row[time_name] - b_row[time_name])/2.0
+                            row.append(i_time)
+                        elif col in keep:
+                            row.append(a_row[col])
+                        else:
+                            row.append(np.nan)
+                    id_df.loc[i] = row
+                id_df.sort_index(inplace=True)
+                id_df.reset_index(inplace=True)
+            processed.append(id_df)
+        df = pd.concat(processed)
+        df = df.reset_index()
         return df
+

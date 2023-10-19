@@ -125,11 +125,12 @@ class TestEREDDAPInfoMethods(unittest.TestCase):
         variables, long_names, units, standard_names, variable_types = scinfo.get_variables()
         self.assertEqual(variable_types['investigators'], 'String')
 
-    def test_gaps(self ):
+    def test_gaps(self):
         url = 'https://data.pmel.noaa.gov/pmel/erddap/tabledap/pmel_co2_moorings_ca69_976d_4677.csv'
         df = pd.read_csv(url, skiprows=[1])
-        df = Info.plug_gaps(df, 'time', ['latitude', 'longitude', 'station_id'], 2)
-        nan_row = df.loc[373.5]
+        df = Info.plug_gaps(df, 'time', 'station_id', ['latitude', 'longitude', 'station_id'], 2)
+        pd.set_option('display.max_columns', None)
+        nan_row = df.loc[374]
         self.assertTrue(math.isnan(nan_row['SST']))
 
 
