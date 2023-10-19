@@ -2,6 +2,7 @@ import unittest
 
 from sdig.erddap.info import Info
 import pandas as pd
+import math
 
 
 class TestEREDDAPInfoMethods(unittest.TestCase):
@@ -123,6 +124,13 @@ class TestEREDDAPInfoMethods(unittest.TestCase):
         scinfo = Info(base)
         variables, long_names, units, standard_names, variable_types = scinfo.get_variables()
         self.assertEqual(variable_types['investigators'], 'String')
+
+    def test_gaps(self ):
+        url = 'https://data.pmel.noaa.gov/pmel/erddap/tabledap/pmel_co2_moorings_ca69_976d_4677.csv'
+        df = pd.read_csv(url, skiprows=[1])
+        df = Info.plug_gaps(df, 'time', ['latitude', 'longitude', 'station_id'], 2)
+        nan_row = df.loc[373.5]
+        self.assertTrue(math.isnan(nan_row['SST']))
 
 
 if __name__ == '__main__':

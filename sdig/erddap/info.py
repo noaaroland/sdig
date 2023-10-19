@@ -3,6 +3,7 @@ import datetime
 import dateutil.parser
 import re
 import urllib
+import numpy as np
 
 
 class Info:
@@ -276,3 +277,45 @@ class Info:
         data_url = data_url.replace('tabledap', "info")
         data_url = data_url + '/index.csv'
         return data_url
+
+    @classmethod
+    def plug_gaps(cls, df, time_name, keep, n_std):
+        """
+        Inserts a NaN value in every column that is not in the keep list
+
+        :param: df: a Dataframe in which to insert NaN's in time gaps.
+        :type: Dataframe
+        :param: time_name: the name of the column in the Dataframe that contains the time
+        :type: str
+        :param: list: the names of the columns which are to be copied into the NaN rows
+        :type: list
+        :param: n_std: the number of standard deviations wide the gap must be to be considered a gap
+        :return: The Dataframe with the NaN row in gap
+        :rtype: Dataframe
+        """
+        df[time_name] = pd.to_datetime(df[time_name])
+        gaps = df['time'].diff()[1:]
+        stats = gaps.describe()
+        factor = stats['std']*n_std
+        breaks = gaps[gaps>factor]
+        after = breaks.index
+        before = breaks.index - 1
+        insert = breaks.index - .5
+        for g in range(0, len(after)):
+            b = before[g]
+            b_row = df.loc[b]
+            i = insert[g]
+            a = after[g]
+            a_row = df.loc[a]
+            row = []
+            for col in df.columns:
+                if col == time_name:
+                    i_time = b_row[time_name] + (a_row[time_name] - b_row[time_name])/2.0
+                    row.append(i_time)
+                elif col in keep:
+                    row.append(a_row[col])
+                else:
+                    row.append(np.nan)
+            df.loc[i] = row
+        df.sort_index(inplace=True)
+        return df
