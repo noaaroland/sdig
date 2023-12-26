@@ -328,6 +328,6 @@ class Info:
                 id_df.reset_index(inplace=True)
             processed.append(id_df)
         df = pd.concat(processed)
-        df = df.reset_index()
+        df = df.reset_index(drop=True)
         return df
 
