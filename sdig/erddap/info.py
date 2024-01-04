@@ -325,7 +325,7 @@ class Info:
                             row.append(np.nan)
                     id_df.loc[i] = row
                 id_df.sort_index(inplace=True)
-                id_df.reset_index(inplace=True)
+                id_df.reset_index(inplace=True, drop=True)
             processed.append(id_df)
         df = pd.concat(processed)
         df = df.reset_index(drop=True)
