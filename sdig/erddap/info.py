@@ -274,7 +274,10 @@ class Info:
             return data_url
         if data_url.endswith('.html'):
             data_url = re.sub('\\.html$', '', data_url)
-        data_url = data_url.replace('tabledap', "info")
+        if 'tabledap' in data_url:
+            data_url = data_url.replace('tabledap', "info")
+        if 'griddap' in data_url:
+            data_url = data_url.replace('griddap', "info")
         data_url = data_url + '/index.csv'
         return data_url
 
